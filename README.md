@@ -7,8 +7,8 @@ ROKEY B-1조 협동-3 Project (디지털 트윈 기반 서비스 로봇 운영 �
 본 프로젝트는 Ubuntu 22.04 (ROS2 humble) 환경에서 개발되었습니다.   
 &nbsp;
 
-### 🦾 작업공간
-<img src="rokey_project/image/workspace/IMG_3175.jpg" width="50%" height="50%" title="px(픽셀) 크기 설정" alt="project_management"></img>   
+### 🚥 작업공간
+<img src="https://github.com/user-attachments/assets/ebe70713-0cb6-4f57-ad24-b2c55033ca71" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="project workspace"></img>   
 &nbsp;
 
 ### 💻 코드 실행
@@ -53,7 +53,7 @@ ros2 launch turtlebot3_autorace_detect detect_traffic_light.launch.py
 &nbsp;
 
 ### 📷 시연 영상
-https://youtu.be/FMOeqKwD2Ls
+https://youtu.be/cOo7qpPeUjg (00:00 ~ 00:21)
 
 ---
 
@@ -96,7 +96,7 @@ TurtleBot3 Burger를 활용하여 실제 마을 환경을 묘사한 Gazebo 시�
 
 ## 3. 🗓 프로젝트 구현 일정
 **진행 일자: 25.06.09(월) ~ 25.06.13(금) (5일)**
-<img src="rokey_project/image/notion/250717_project_management.png" width="100%" height="100%" title="px(픽셀) 크기 설정" alt="project_management"></img>
+<img src="https://github.com/user-attachments/assets/532b479e-6d50-41f1-adbb-e5ec09ce2c69" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="project_management"></img>
 
 &nbsp;
 
@@ -121,15 +121,37 @@ TurtleBot3 Burger를 활용하여 실제 마을 환경을 묘사한 Gazebo 시�
 ### **AI & Computer Vision**
 <div align=left>
   
-  ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
   ![OpenCV](https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white)
 </div>
 
-[![My Skills](https://skillicons.dev/icons?i=pytorch,opencv&theme=light)](https://skillicons.dev) 
+[![My Skills](https://skillicons.dev/icons?i=opencv&theme=light)](https://skillicons.dev) 
 
 &nbsp;
 
 ## 5. 🎬 System Flow
-<img src="rokey_project/image/system_flow/ROKEY_Pharmacy_detail.drawio.png" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="system_flow"></img>
+
+1. **출발 및 신호 인식**
+    - 출발선에서 대기하며 신호등을 인식
+    - 초록불이 감지되면 주행을 시작함
+2. **방향 표지판 인식 및 경로 결정**
+    - 갈림길에서 일정 시간 간격으로 왼쪽/오른쪽 방향 표지판이 번갈아 나타남
+    - TurtleBot은 현재 인식된 방향 표지판을 기준으로 해당 방향으로 이동
+3. **과속 방지턱 대비**
+    - 과속 방지턱 표지판을 인식하면 속도를 감속하여 방지턱 충격을 완화함
+4. **어린이 보호구역 감속 주행**
+    - 어린이 보호구역 표지판을 인식하면 지정된 저속으로 감속 주행함
+5. **주차 표지판 인식 및 주차**
+    - 주차 표지판 인식 시, 지정된 주차 구역에 정차
+    - 일정 시간 정차 후, 다시 주행을 재개
+6. **횡단보도에서 보행자 인식**
+    - 횡단보도에 진입 시, 사람을 인식하면 일시 정지
+    - 보행자가 지나간 뒤 안전을 확인하고 주행 재개
+7. **속도 제한 표지판 인식**
+    - 속도 제한 100 표지판 인식 시, 지정된 속도로 가속
+    - 속도 제한 30 표지판 인식 시, 감속하여 안전 주행
+8. **조명 변화 대응 및 차선 인식 보정**
+    - 강한 조명이 도로에 비춰지는 환경을 구성
+    - 조도 변화에 따른 차선 인식 정확도 저하에 대비하여 차선 인식 파라미터를 조정
+    - 조명 변화에도 안정적인 차선 인식 및 주행이 가능하도록 구현
 
 &nbsp;
