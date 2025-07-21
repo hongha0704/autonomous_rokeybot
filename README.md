@@ -122,6 +122,7 @@ TurtleBot3 Burger를 활용하여 실제 마을 환경을 묘사한 Gazebo 시�
 <div align=left>
   
   ![OpenCV](https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white)
+  ![YOLO](https://img.shields.io/badge/YOLO-111F68?style=for-the-badge&logo=YOLO&logoColor=white)
 </div>
 
 [![My Skills](https://skillicons.dev/icons?i=opencv&theme=light)](https://skillicons.dev) 
