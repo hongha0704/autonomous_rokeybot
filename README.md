@@ -66,6 +66,7 @@ https://youtu.be/cOo7qpPeUjg (00:00 ~ 00:21)
 #### [3. 🗓 프로젝트 구현 일정](#3--프로젝트-구현-일정-1)   
 #### [4. 📌 SKILLS](#4--skills-1)   
 #### [5. 🎬 System Flow](#5--system-flow-1)   
+#### [6. ✨ 주요 기능](#6--주요-기능-1)   
 
 ---
 
@@ -156,3 +157,77 @@ TurtleBot3 Burger를 활용하여 실제 마을 환경을 묘사한 Gazebo 시�
     - 조명 변화에도 안정적인 차선 인식 및 주행이 가능하도록 구현
 
 &nbsp;
+
+## 6. ✨ 주요 기능
+### 0. YOLO 커스텀 데이터셋 제작
+- YOLO dataset class   
+<img src="https://github.com/user-attachments/assets/5f48836e-ef29-4b50-997e-85b277340a2f" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+
+- 라벨링 진행   
+<img src="https://github.com/user-attachments/assets/c759e6c6-6915-46e2-9b71-44ac535445a4" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+<img src="https://github.com/user-attachments/assets/a862e0b6-e9fe-4652-81cb-780e16063ff9" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+
+- YOLO Object Detection
+  - 표지판 인식 후 Publish → control_lane.py, detect_lane.py 에서 표지판 정보를 Subscribe하고 감속, 정지 등 동작 수행   
+<img src="https://github.com/user-attachments/assets/ede79cab-3d1e-43ee-add8-724e3933c59d" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+
+&nbsp;
+### 1. 신호등 인식
+- 이미지에서 3색 신호등을 각각 마스킹
+- 원형 객체 탐지를 통해 신호등 상태를 인식 결과를 이미지에 표시하고 토픽으로 송신
+- 특정 색상의 마스크 이미지에서 원형 blob을 검출
+- 원형 blob이 있을 경우 해당 색상의 신호등 감지 판단
+- 탐지된 신호등 색에 따라 publish 하는 ```twist.linear.x``` 값을 다르게 하여 터틀봇 속도 제어
+
+<img src="https://github.com/user-attachments/assets/f6105cef-fdfe-41e6-a8bf-d4f2d7b51dc5" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+<img width="565" height="71" alt="250613_신호등 터미널" src="https://github.com/user-attachments/assets/9d259d47-df18-4b6a-ac3a-6017d3d16d22" />
+<img width="564" height="37" alt="250613_신호등 터미널2" src="https://github.com/user-attachments/assets/6191e820-c288-4de6-bf7a-28402b872a67" />
+
+&nbsp;
+### 2. 좌우 표지판 전환 플러그인
+- 플러그인을 사용하여 교차로에서 좌우 표지판이 일정 시간 간격으로 전환되도록 구현   
+<img src="https://github.com/user-attachments/assets/a9eba8ee-ca2b-4a2d-b1ff-00c1ce5e3cec" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+- 표지판을 인식하면 해당 방향 경로로 이동   
+<img src="https://github.com/user-attachments/assets/7bb33dab-5168-46fd-973d-a6d0039797ff" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+
+| 왼쪽 이동 | 오른쪽 이동 |
+|--|--|
+| <img width="1063" height="461" alt="250612_follow left" src="https://github.com/user-attachments/assets/1f0f45e1-6d78-4e05-b534-b2efd7aff0a8" /> <img width="543" height="74" alt="250612_터미널 left" src="https://github.com/user-attachments/assets/92ec68e9-bae4-4c32-bb55-dfc3fd1e0bc2" /> | <img width="1061" height="463" alt="250612_follow right" src="https://github.com/user-attachments/assets/4a3a575b-7ff7-4dca-ac57-a7c9b2def2a1" /> <img width="543" height="74" alt="250612_터미널 right" src="https://github.com/user-attachments/assets/9f504ccd-2c93-4f38-b25d-69706b6e4b12" /> |
+
+&nbsp;
+### 3. 과속 방지턱 - 감속
+- 과속 방지턱 가까이서 인식 시, 10초 간 터틀봇에 낮은 ```twist.linear.x``` 값을 퍼블리시 하여 감속
+- 이후 다시 정상 속도로 주행   
+
+<img src="https://github.com/user-attachments/assets/11055a9a-e424-40e0-9fb9-77d68da2459a" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+<img width="563" height="71" alt="250612_과속방지턱 터미널" src="https://github.com/user-attachments/assets/981dc3d2-24e5-4930-b885-3dd903f614d1" />
+
+&nbsp;
+### 4. 어린이 보호구역 - 감속
+- 어린이 보호구역 가까이서 인식 시, 10초 간 터틀봇에 낮은 twist.linear.x 값을 퍼블리시 하여 감속
+- 이후 다시 정상 속도로 주행
+
+<img src="https://github.com/user-attachments/assets/68443d70-373d-44fe-ade6-ee7afc2762fb" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+<img width="557" height="72" alt="250613_school zone 터미널" src="https://github.com/user-attachments/assets/e3365701-168d-4a85-b6bf-3a1894d6167e" />
+
+&nbsp;
+### 5. 횡단보도 - 일시 정지
+- 횡단보도와 보행자 동시에 인식 시, 10초 간 터틀봇에 ```twist.linear.x = 0``` 값을 퍼블리시 하여 정지
+- 이후 다시 정상 속도로 주행
+
+<img src="https://github.com/user-attachments/assets/3b88c067-6bda-4eed-8db0-7d61dfb941d0" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+<img width="560" height="74" alt="250613_횡단보도 터미널" src="https://github.com/user-attachments/assets/64ef59d8-1a12-4643-9693-daa366d8f92d" />
+
+&nbsp;
+### 6. 속도 제한 표지판 100 - 가속
+- 속도 제한 표지판 100 인식 시, 터틀봇에 높은 ```twist.linear.x``` 값을 퍼블리시 하여 가속
+
+<img src="https://github.com/user-attachments/assets/b67ff2f2-2a59-43fe-bd29-765df2b9ab34" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+<img width="559" height="72" alt="250613_속도 100 터미널" src="https://github.com/user-attachments/assets/e2d0af0f-c9e0-483e-8008-83fd25c65c67" />
+
+&nbsp;
+### 7. 속도 제한 표지판 30 - 감속
+- 속도 제한 표지판 30 인식 시, 터틀봇에 낮은 ```twist.linear.x``` 값을 퍼블리시 하여 감속
+
+<img src="https://github.com/user-attachments/assets/f87fa3b9-4294-4415-931d-8fab17b30594" width="75%" height="75%" title="px(픽셀) 크기 설정" alt="image"></img>
+<img width="559" height="90" alt="250613_속도 30 터미널" src="https://github.com/user-attachments/assets/ee0b2348-f676-437a-8294-2f89403eaf56" />
